@@ -25,10 +25,10 @@ $ ./fameChecker [-r <region>] [-s <species>] [-t <type>] [-c|--nocount] [-l|--li
 
 
 ## Autores
-Henry Galue 14-10373
-Blanyer Vielma 16-11238
-Cesar Gonzalez 14-10423
-Eros Cedeño 16-10216
+- Henry Galue 14-10373
+- Blanyer Vielma 16-11238
+- Cesar Gonzalez 14-10423
+- Eros Cedeño 16-10216
 
 #### Universidad Simon Bolivar
 #### Trimestre Enero-Marzo 2023
