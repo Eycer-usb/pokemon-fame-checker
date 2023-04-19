@@ -14,23 +14,15 @@ TEMPDIR = tmp
 # Binary output name
 BINARY = fameChecker.o
 
-# Backend output name
-BACKEND = backend.o
-
-# Backend temporary files
-BACKENDFILES =	$(TEMPDIR)
-
 # Objective temporary files
 FILES =	$(TEMPDIR)/Main.o
 
 all: $(BINARY)
 
-backend-test: $(BACKEND)
-
 backend: $(BACKENDFILES)
 
 clean:
-	rm $(BINARY) $(TEMPDIR)/$(BACKEND) $(BACKEND) $(FILES);\
+	rm $(BINARY) $(FILES);\
 	rmdir $(TEMPDIR)
 
 # Rules of make...
@@ -44,15 +36,6 @@ $(TEMPDIR)/List.o: 	$(TEMPDIR) \
 					$(SRCDIR)/backend/list.h \
 					$(SRCDIR)/backend/List.c
 	$(COMPILE) $(SRCDIR)/backend/List.c -o $(TEMPDIR)/List.o
-
-$(TEMPDIR)/Route.o: 	$(TEMPDIR) \
-					$(SRCDIR)/backend/route.h \
-					$(SRCDIR)/backend/Route.c
-	$(COMPILE) $(SRCDIR)/backend/Route.c -o $(TEMPDIR)/Route.o
-
-$(TEMPDIR)/data.o: 	$(TEMPDIR) \
-					$(SRCDIR)/backend/data.c
-	$(COMPILE) $(SRCDIR)/backend/data.c -o $(TEMPDIR)/data.o
 
 # The main Function
 $(TEMPDIR)/Main.o: 	$(TEMPDIR)\
