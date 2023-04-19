@@ -23,6 +23,13 @@ $ ./fameChecker [-r <region>] [-s <species>] [-t <type>] [-c|--nocount] [-l|--li
 
 --size indica si se debe mostrar el tamaño en kilobytes (1024 bytes) de los archivos. (Por defecto, no se muestra.) Si está incluido el flag -l, se muestra junto a cada archivo encontrado, su tamaño [name] permite restringir la búsqueda a archivos que comiencen con el nombre dado.
 
+
+## Autores
+Henry Galue 14-10373
+Blanyer Vielma 16-11238
+Cesar Gonzalez 14-10423
+Eros Cedeño 16-10216
+
 #### Universidad Simon Bolivar
 #### Trimestre Enero-Marzo 2023
 #### Profesor Fernando Torres Mora

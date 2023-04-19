@@ -19,8 +19,6 @@ FILES =	$(TEMPDIR)/Main.o
 
 all: $(BINARY)
 
-backend: $(BACKENDFILES)
-
 clean:
 	rm $(BINARY) $(FILES);\
 	rmdir $(TEMPDIR)
