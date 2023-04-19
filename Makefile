@@ -31,12 +31,6 @@ clean:
 $(TEMPDIR):
 	mkdir $(TEMPDIR)
 
-# Backend files
-$(TEMPDIR)/List.o: 	$(TEMPDIR) \
-					$(SRCDIR)/backend/list.h \
-					$(SRCDIR)/backend/List.c
-	$(COMPILE) $(SRCDIR)/backend/List.c -o $(TEMPDIR)/List.o
-
 # The main Function
 $(TEMPDIR)/Main.o: 	$(TEMPDIR)\
 					$(SRCDIR)/main.c
