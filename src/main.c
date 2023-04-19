@@ -205,10 +205,15 @@ void process_directory(const char *path, search_criteria *criteria,
         return;
     }
 
+    /*
+    Se navega recursivamente dentro de los directorios partiendo desde la
+    ruta recibida como argumento
+    */
     while ((entry = readdir(dir)) != NULL) {
         char new_path[1024];
         snprintf(new_path, sizeof(new_path), "%s/%s", path, entry->d_name);
 
+        // Si se alcanza un directorio se estudian los elementos internos
         if (entry->d_type == DT_DIR) {
             if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                 continue;
@@ -230,6 +235,8 @@ void process_directory(const char *path, search_criteria *criteria,
                 default:
                     break;
             }
+        // Si se alcanza un archivo se analiza y procesa segun los criterios de 
+        // busqueda
         } else if (entry->d_type == DT_REG) {
             // Filtrar solo archivos HTML
             char *file_ext = strrchr(entry->d_name, '.');
