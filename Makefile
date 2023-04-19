@@ -12,7 +12,7 @@ SRCDIR  = src
 TEMPDIR = tmp
 
 # Binary output name
-BINARY = fameChecker.o
+BINARY = fameChecker
 
 # Objective temporary files
 FILES =	$(TEMPDIR)/Main.o

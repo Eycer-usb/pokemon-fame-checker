@@ -1,3 +1,5 @@
 *.html
 directorio/
 *.o
+/tmp
+fameChecker
