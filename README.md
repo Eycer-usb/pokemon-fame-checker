@@ -11,7 +11,7 @@ El archivo make pone a disposicion el comando make clean para eliminar los archi
 
 ## Opciones principales del programa y ejecucion
 
-$ ./fameChecker [-r <region>] [-s <species>] [-t <type>] [-c|--nocount] [-l|--list] [--size] [name]
+$ ./fameChecker [-r <region>] [-s <species>] [-t <type>] [-c|--nocount] [-l|--list] [--size] -p [name]
 
 -r indica que debe limitarse la búsqueda a una región. El nombre de la región debe llevar la misma grafía que el directorio que la contiene.
 
@@ -22,6 +22,10 @@ $ ./fameChecker [-r <region>] [-s <species>] [-t <type>] [-c|--nocount] [-l|--li
 -l ó --list indica si se deben dar los nombres de los archivos encontrados. (Por defecto, no se muestran.)
 
 --size indica si se debe mostrar el tamaño en kilobytes (1024 bytes) de los archivos. (Por defecto, no se muestra.) Si está incluido el flag -l, se muestra junto a cada archivo encontrado, su tamaño [name] permite restringir la búsqueda a archivos que comiencen con el nombre dado.
+
+-p  Indica el nombre del personaje a buscar o el nombre del entrenador al cual pertenece
+    el pokemon
+
 
 ## Universidad Simon Bolivar
 ## Trimestre Enero-Marzo 2023
