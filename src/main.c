@@ -309,7 +309,7 @@ void free_resources(character *characters, int count) {
 
 
 /*
-============================================================================
+=======================================================================================
 Funcion de entrada del programa principal
 
 El programa recibe los siguientes argumentos:
@@ -332,9 +332,11 @@ El programa recibe los siguientes argumentos:
     (Por defecto, no se muestran.)
 
 --size indica si se debe mostrar el tamaño en kilobytes (1024 bytes) de los archivos.
-    (Por defecto, no se muestra.) Si está incluido el flag -l, se muestra junto a cada archivo encontrado, su tamaño [name] permite restringir la búsqueda a archivos que comiencen con el nombre dado.
+    (Por defecto, no se muestra.) Si está incluido el flag -l, se muestra junto a cada
+    archivo encontrado, su tamaño [name] permite restringir la búsqueda a archivos 
+    que comiencen con el nombre dado.
 
-============================================================================
+========================================================================================
 */
 int main(int argc, char *argv[]) {
     // Crear e inicializar la estructura search_criteria
