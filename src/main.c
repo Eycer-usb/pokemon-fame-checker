@@ -71,7 +71,6 @@ typedef struct {
     int list_files;
     int show_size;
     char *name;
-    char *regex;
 } search_criteria;
 
 /*
@@ -100,7 +99,7 @@ void parse_arguments(int argc, char *argv[], search_criteria *criteria) {
     };
     int long_index = 0;
 
-    while ((opt = getopt_long(argc, argv, "r:s:t:p:clz", long_options, &long_index)) != -1) {
+    while ((opt = getopt_long(argc, argv, "r:s:t:clz", long_options, &long_index)) != -1) {
         switch (opt) {
             case 'r':
                 criteria->region = optarg;
@@ -130,9 +129,6 @@ void parse_arguments(int argc, char *argv[], search_criteria *criteria) {
                 break;
             case 'z':
                 criteria->show_size = 1;
-                break;
-            case 'p':
-                criteria->regex = optarg;
                 break;
             default:
                 exit(EXIT_FAILURE);
@@ -346,9 +342,6 @@ El programa recibe los siguientes argumentos:
     (Por defecto, no se muestra.) Si está incluido el flag -l, se muestra junto a cada
     archivo encontrado, su tamaño [name] permite restringir la búsqueda a archivos 
     que comiencen con el nombre dado.
-
--p  Indica el nombre del personaje a buscar o el nombre del entrenador al cual pertenece
-    el pokemon
 
 ========================================================================================
 */
