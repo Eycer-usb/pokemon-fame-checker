@@ -8,13 +8,32 @@
 #include <getopt.h>
 #include <stdbool.h>
 
-// Definir las constantes para los tipos de personajes
+/*
+================================================================
+Se Definen las constantes de caracterizacion de los directorios
+que conforman la estructura de las rutas hacia los archivos
+================================================================
+*/
 #define MAIN 0
 #define RECURRING 1
 #define GYM_LEADER 2
 #define ONE_TIME 3
 
-// Definir una estructura `character` que almacene informacion sobre el personaje
+/*
+==================================================================
+Estructura Character para los personajes de la serie
+
+Miembros:
+- name:         Nombre del Personaje
+- region:       Region en el cual el personaje hace su aparicion
+- species:      Puede ser Pokemon o Trainer
+- type:         Indica el tipo de aparicion
+                esta puede ser: Main, recurring, gym_leader
+                y one_time
+- file_size:    Indica el tamaño del archivo en kilobytes
+
+==================================================================
+*/
 typedef struct {
     char *name;
     char *region;
@@ -23,7 +42,27 @@ typedef struct {
     unsigned long file_size;
 } character;
 
-// Definir una estructura `search_criteria` que almacene los criterios de busqueda
+/*
+===================================================================
+Criterio de Busqueda
+
+Se almacenan los argumentos de la busqueda recibida por el usuario
+por la linea de comandos
+
+Miembros:
+- region:       Region en el cual el personaje hace su aparicion
+- species:      Puede ser Pokemon o Trainer
+- type:         Indica el tipo de aparicion
+                esta puede ser: Main, recurring, gym_leader
+                y one_time
+- show_count:   Booleano para indicar si muestra la cuenta de 
+                resultados obtenidos
+-list_files:    Boleano, 1 si se debe mostrar la lista de archivos
+-show_size:     Boleano, 1 si se debe mostrar el tamaño de los archivos
+- name:         Nombre del Personaje
+
+===================================================================
+*/
 typedef struct {
     char *region;
     char *species;
@@ -34,7 +73,22 @@ typedef struct {
     char *name;
 } search_criteria;
 
-// Funcion para analizar los argumentos de la linea de comando
+/*
+==============================================================
+Funcion interpretadora de los argumentos y flags
+recibidos desde la linea de comando al ejecutarse
+el programa principal
+
+Argumentos:
+- argc:             Cantidad de argumentos en la linea de comandos
+- argv:             Arreglo con argumentos recibidos
+- search_criteria:  Estructura de criterio de busqueda
+
+Respuesta:
+- Almacena los criterios de busqueda en la estructura search_criteria
+
+==============================================================
+*/
 void parse_arguments(int argc, char *argv[], search_criteria *criteria) {
     int opt;
     static struct option long_options[] = {
@@ -86,7 +140,21 @@ void parse_arguments(int argc, char *argv[], search_criteria *criteria) {
 }
 }
 
-// Funcion para comprobar si un archivo coincide con los criterios de busqueda
+/*
+============================================================================
+Funcion boolena, indica si un archivo coincide con el criterio de busqueda
+almacenada en la estructura search_criteria
+
+Argumentos:
+- filename: Nombre del archivo a consultar
+- search_criteria: Estuctura criterio de busqueda
+
+Respuesta:
+- true si el nombre del archivo cumple con el criterio de busqueda
+- false si el nombre del archivo NO cumple el criterio de busqueda
+============================================================================
+
+*/
 bool is_match(const char *filename, search_criteria *criteria) {
     // Comprueba si el nombre del archivo contiene el nombre proporcionado en los criterios de busqueda
     if (criteria->name != NULL && strstr(filename, criteria->name) == NULL) {
@@ -109,8 +177,25 @@ bool is_match(const char *filename, search_criteria *criteria) {
     return true;
 }
 
-// Funcion para procesar el directorio especificado en funcion de los criterios de busqueda
-void process_directory(const char *path, search_criteria *criteria, character **characters, int *count, int depth) {
+/*
+============================================================================
+Funcion recursiva para procesar el directorio especificado en funcion 
+de los criterios de busqueda indicados en la estructura search_criteria
+
+Argumentos:
+- path:         String con la ruta del directorio a procesar
+- criteria:     Criterio de busqueda
+- characters:   Personajers
+- count:        Contador de cantidad de resultados obtenidos
+- depht:        Profundidad de la recursividad.
+
+Resultado:
+- En el argumento count se almacena el numero de coincidencias encontradas
+============================================================================
+
+*/
+void process_directory(const char *path, search_criteria *criteria,
+                        character **characters, int *count, int depth) {
     DIR *dir;
     struct dirent *entry;
     struct stat file_stat;
@@ -167,7 +252,22 @@ void process_directory(const char *path, search_criteria *criteria, character **
     closedir(dir);
 }
 
-// Funcion para imprimir los resultados de acuerdo con los criterios de busqueda
+/*
+============================================================================
+
+Funcion para imprimir los resultados de acuerdo con los criterios de busqueda
+
+Argumentos:
+characters:     Estructura de Personajes
+count:          Cantidad de archivos encontrados o coincidencias de busqueda
+criteria:       Criterio de Busqueda
+
+Respuesta
+Se imprime por la salida estandar los resultados obtenidos
+segun los criterios de busqueda recibidos
+
+============================================================================
+*/
 void print_results(character *characters, int count, search_criteria *criteria) {
     
     if (criteria->show_count) {
@@ -185,7 +285,20 @@ void print_results(character *characters, int count, search_criteria *criteria) 
     }
 }
 
-// Funcion para liberar la memoria utilizada por las estructuras de datos
+/*
+============================================================================
+
+Funcion para liberar la memoria utilizada por las estructuras de datos
+de personajes
+
+Argumentos:
+- Characters:   Arreglo de personajes
+- count:        Cantidad de personajes en el arreglo
+
+Resultado:
+- Se liberan count estructuras del arreglo de characters
+============================================================================
+*/
 void free_resources(character *characters, int count) {
     
     for (int i = 0; i < count; i++) {
@@ -194,6 +307,35 @@ void free_resources(character *characters, int count) {
     free(characters);
 }
 
+
+/*
+============================================================================
+Funcion de entrada del programa principal
+
+El programa recibe los siguientes argumentos:
+
+-r indica que debe limitarse la búsqueda a una región. El nombre de la región
+    debe llevar la misma grafía que el directorio que la contiene.
+
+-s indica la especie (en este caso, la especie debe ser “pokemon” para indicar
+    que se debe contar solamente los archivos HTML en los directorios de pokémones
+    que correspondan con los criterios de búsqueda o “trainer” para indicar que se 
+    debe contar solamente a los humanos)
+
+-t indica el tipo de apariciones: “main” para los personajes principales,
+    “recurring” para los personajes recurrentes, “gym_leader” para los líderes de
+    gimnasio, y “one_time” para los personajes que aparecen solo una vez -c 
+    ó --nocount indica si debe aparecer el número de archivos encontrados.
+    (Por defecto, se muestra. Si el flag está presente, no se debe mostrar.)
+
+-l ó --list indica si se deben dar los nombres de los archivos encontrados.
+    (Por defecto, no se muestran.)
+
+--size indica si se debe mostrar el tamaño en kilobytes (1024 bytes) de los archivos.
+    (Por defecto, no se muestra.) Si está incluido el flag -l, se muestra junto a cada archivo encontrado, su tamaño [name] permite restringir la búsqueda a archivos que comiencen con el nombre dado.
+
+============================================================================
+*/
 int main(int argc, char *argv[]) {
     // Crear e inicializar la estructura search_criteria
     search_criteria criteria = {NULL, NULL, -1, 1, 0, 0, NULL};
