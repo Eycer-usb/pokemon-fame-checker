@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <stdbool.h>
+#include "search_criteria.h"
+#include "characters.h"
 
 /*
 ================================================================
@@ -18,60 +20,6 @@ que conforman la estructura de las rutas hacia los archivos
 #define RECURRING 1
 #define GYM_LEADER 2
 #define ONE_TIME 3
-
-/*
-==================================================================
-Estructura Character para los personajes de la serie
-
-Miembros:
-- name:         Nombre del Personaje
-- region:       Region en el cual el personaje hace su aparicion
-- species:      Puede ser Pokemon o Trainer
-- type:         Indica el tipo de aparicion
-                esta puede ser: Main, recurring, gym_leader
-                y one_time
-- file_size:    Indica el tamaño del archivo en kilobytes
-
-==================================================================
-*/
-typedef struct {
-    char *name;
-    char *region;
-    char *species;
-    int type;
-    unsigned long file_size;
-} character;
-
-/*
-===================================================================
-Criterio de Busqueda
-
-Se almacenan los argumentos de la busqueda recibida por el usuario
-por la linea de comandos
-
-Miembros:
-- region:       Region en el cual el personaje hace su aparicion
-- species:      Puede ser Pokemon o Trainer
-- type:         Indica el tipo de aparicion
-                esta puede ser: Main, recurring, gym_leader
-                y one_time
-- show_count:   Booleano para indicar si muestra la cuenta de 
-                resultados obtenidos
--list_files:    Boleano, 1 si se debe mostrar la lista de archivos
--show_size:     Boleano, 1 si se debe mostrar el tamaño de los archivos
-- name:         Nombre del Personaje
-
-===================================================================
-*/
-typedef struct {
-    char *region;
-    char *species;
-    int type;
-    int show_count;
-    int list_files;
-    int show_size;
-    char *name;
-} search_criteria;
 
 /*
 ==============================================================
