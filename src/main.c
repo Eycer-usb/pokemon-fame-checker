@@ -147,15 +147,18 @@ almacenada en la estructura search_criteria
 
 Argumentos:
 - filename: Nombre del archivo a consultar
+- path: path de ubicacion del archivo a consultar
 - search_criteria: Estuctura criterio de busqueda
 
 Respuesta:
 - true si el nombre del archivo cumple con el criterio de busqueda
+    o si el path no pertenece al criterio de busqueda
 - false si el nombre del archivo NO cumple el criterio de busqueda
+    o si el path no pertenece al criterio de busqueda
 ============================================================================
 
 */
-bool is_match(const char *filename, search_criteria *criteria) {
+bool is_match(const char *filename, const char *path, search_criteria *criteria) {
     // Comprueba si el nombre del archivo contiene el nombre proporcionado en los criterios de busqueda
     if (criteria->name != NULL && strstr(filename, criteria->name) == NULL) {
         return false;
@@ -163,17 +166,16 @@ bool is_match(const char *filename, search_criteria *criteria) {
 
     // Comprueba si el tipo de aparicion coincide con los criterios de busqueda
     if (criteria->type != -1) {
-        if (criteria->type == MAIN && strstr(filename, "_main") == NULL) {
+        if (criteria->type == MAIN && strstr(path, "main") == NULL) {
             return false;
-        } else if (criteria->type == RECURRING && strstr(filename, "_recurring") == NULL) {
+        } else if (criteria->type == RECURRING && strstr(path, "recurring") == NULL) {
             return false;
-        } else if (criteria->type == GYM_LEADER && strstr(filename, "_gym_leader") == NULL) {
+        } else if (criteria->type == GYM_LEADER && strstr(path, "gym_leader") == NULL) {
             return false;
-        } else if (criteria->type == ONE_TIME && strstr(filename, "_one_time") == NULL) {
+        } else if (criteria->type == ONE_TIME && strstr(path, "one_time") == NULL) {
             return false;
         }
     }
-
     return true;
 }
 
@@ -241,7 +243,7 @@ void process_directory(const char *path, search_criteria *criteria,
             // Filtrar solo archivos HTML
             char *file_ext = strrchr(entry->d_name, '.');
             if (file_ext != NULL && strcmp(file_ext, ".html") == 0) {
-                if (is_match(entry->d_name, criteria)) {
+                if (is_match(entry->d_name, path, criteria)) {
                     // Agregar el archivo a la lista de personajes
                     *characters = realloc(*characters, (*count + 1) * sizeof(character));
                     (*characters)[*count].name = strdup(entry->d_name);
